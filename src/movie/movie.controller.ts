@@ -65,6 +65,18 @@ export class MovieController {
     }
   }
 
+  @Get(':search/:value')
+  // @ApiBearerAuth()
+  // @UseGuards()
+  async search(@Param() params): Promise<Movie[]> {
+    console.log(params.value, params.search);
+    try {
+      return await this.appService.searchByAll(params.search, params.value);
+    } catch (err) {
+      return err;
+    }
+  }
+
   @Get()
   async getMovies(): Promise<Movie[]> {
     try {
