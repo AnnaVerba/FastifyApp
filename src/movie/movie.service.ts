@@ -9,35 +9,35 @@ import { Sequelize } from 'sequelize-typescript';
 export class MovieService {
   constructor(
     @InjectModel(Movie)
-    private readonly MovieModel: typeof Movie,
+    private readonly movie: typeof Movie,
     private readonly sequelize: Sequelize,
   ) {}
 
   createRow(movie): Promise<Movie> {
-    return this.MovieModel.create(movie);
+    return this.movie.create(movie);
   }
 
   upDateRow(body, movie): Promise<any> {
-    return this.MovieModel.update(body, { where: { id: movie } });
+    return this.movie.update(body, { where: { id: movie } });
   }
 
   deleteMovie(movie): Promise<any> {
-    return this.MovieModel.destroy({ where: { id: movie } });
+    return this.movie.destroy({ where: { id: movie } });
   }
 
   getMovieById(movie): Promise<Movie> {
-    return this.MovieModel.findOne({ where: { id: movie } });
+    return this.movie.findOne({ where: { id: movie } });
   }
 
   async getAllMovies(): Promise<any> {
-    return this.MovieModel.findAll();
+    return this.movie.findAll();
   }
 
   async searchByAll(search, value): Promise<Movie[]> {
     console.log('eroor', value);
     // const queryForBd = 'SELECT * FROM movies WHERE ' + search + '=?';
     // await Sequelize.query(queryForBd, [value]);
-    return this.MovieModel.findAll({
+    return this.movie.findAll({
       where: this.sequelize.where(this.sequelize.col(`${search}`), value),
     });
   }

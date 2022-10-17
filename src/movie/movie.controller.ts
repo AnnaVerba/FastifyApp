@@ -16,7 +16,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('movie')
 export class MovieController {
-  constructor(private readonly appService: MovieService) {}
+  constructor(private readonly movieService: MovieService) {}
 
   @Post()
   @HttpCode(HttpStatus.OK)
@@ -30,7 +30,7 @@ export class MovieController {
       return null;
     }
     try {
-      return await this.appService.createRow(body);
+      return await this.movieService.createRow(body);
     } catch (e) {
       return e;
     }
@@ -39,7 +39,7 @@ export class MovieController {
   @Put(':id')
   async updateMovie(@Body() body: any, @Param('id') id: number) {
     try {
-      return await this.appService.upDateRow(body, id);
+      return await this.movieService.upDateRow(body, id);
     } catch (err) {
       return err;
     }
@@ -48,7 +48,7 @@ export class MovieController {
   @Delete(':id')
   async deleteMovie(@Param('id') id: number): Promise<any> {
     try {
-      return await this.appService.deleteMovie(id);
+      return await this.movieService.deleteMovie(id);
     } catch (err) {
       return err;
     }
@@ -59,7 +59,7 @@ export class MovieController {
   @UseGuards()
   async getMovieById(@Param('id') id: number): Promise<Movie> {
     try {
-      return await this.appService.getMovieById(id);
+      return await this.movieService.getMovieById(id);
     } catch (err) {
       return err;
     }
@@ -71,7 +71,7 @@ export class MovieController {
   async search(@Param() params): Promise<Movie[]> {
     console.log(params.value, params.search);
     try {
-      return await this.appService.searchByAll(params.search, params.value);
+      return await this.movieService.searchByAll(params.search, params.value);
     } catch (err) {
       return err;
     }
@@ -80,7 +80,7 @@ export class MovieController {
   @Get()
   async getMovies(): Promise<Movie[]> {
     try {
-      return await this.appService.getAllMovies();
+      return await this.movieService.getAllMovies();
     } catch (err) {
       return err;
     }
