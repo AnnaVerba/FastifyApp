@@ -34,11 +34,15 @@ export class MovieService {
   }
 
   async searchByAll(search, value): Promise<Movie[]> {
-    console.log('eroor', value);
-    // const queryForBd = 'SELECT * FROM movies WHERE ' + search + '=?';
-    // await Sequelize.query(queryForBd, [value]);
-    return this.movie.findAll({
-      where: this.sequelize.where(this.sequelize.col(`${search}`), value),
-    });
+    if (!Movie.hasOwnProperty(search)) {
+      throw new Error('You should provide correct field');
+    }
+    try {
+      return this.movie.findAll({
+        where: this.sequelize.where(this.sequelize.col(`${search}`), value),
+      });
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 }

@@ -14,7 +14,6 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
-  console.log('main');
   await app.register(contentParser);
   await app.register(fastifyCookie, {
     secret: 'my-secret',
