@@ -27,7 +27,6 @@ console.log(process.env.database);
 
     MovieModule,
     UploadModule,
-
     AuthModule,
   ],
 })

@@ -3,7 +3,7 @@ import { MovieService } from './movie.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ModuleMocker, MockFunctionMetadata } from 'jest-mock';
 
-import * as request from 'supertest';
+//import * as request from 'supertest';
 import { Movie } from './models/movie.model';
 
 const moduleMocker = new ModuleMocker(global);
@@ -42,7 +42,6 @@ describe('MovieController', () => {
       .spyOn(movieService, 'searchByAll')
       .mockImplementation((): Promise<any> => Promise.resolve([]));
     const received = await movieController.search('time/1243');
-
     expect(received).toEqual([]);
   });
   it('Search is function ', async () => {
@@ -74,16 +73,15 @@ describe('MovieController', () => {
       .spyOn(movieService, 'searchByAll')
       .mockImplementation((): Promise<any> => Promise.resolve(result));
     const received = await movieController.search('time/4');
-    console.log(received);
     expect(received).toEqual(result);
   });
   it('DB dont have such field', async () => {
     const received = await movieController.search('4/4');
     expect(received).toThrowError();
   });
-  it('/api/movie', async () => {
-    return request('localhost:8001/').get('api/movie').expect(200);
-  });
+  // it('/api/movie', async () => {
+  //   return request('localhost:8001/').get('api/movie').expect(200);
+  // });
 
   it('You must provide a values', async () => {
     const received = await movieController.search('');
