@@ -22,6 +22,6 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
 
-  await app.listen(8002);
+  await app.listen(8001);
 }
 bootstrap();

@@ -13,10 +13,15 @@ import {
 import { MovieService } from './movie.service';
 import { Movie } from './models/movie.model';
 import { ApiBearerAuth } from '@nestjs/swagger';
-
+import { Ctx, MessagePattern, RmqContext } from '@nestjs/microservices';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+//import { ConsumeMessage } from 'amqplib';
 @Controller('movie')
 export class MovieController {
-  constructor(private readonly movieService: MovieService) {}
+  constructor(
+    private readonly movieService: MovieService,
+    private readonly amqpConnection: AmqpConnection,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.OK)
@@ -26,11 +31,15 @@ export class MovieController {
     if (!body) {
       console.log(body.name);
       console.log(body);
-
       return null;
     }
     try {
-      return await this.movieService.createRow(body);
+      const movie = await this.movieService.createRow(body);
+      this.amqpConnection.publish('exchange1', 'user.info', {
+        msg: 'Movie created!!!',
+      });
+
+      return movie;
     } catch (e) {
       return e;
     }
@@ -79,5 +88,17 @@ export class MovieController {
     } catch (err) {
       return err;
     }
+  }
+  @MessagePattern({ cmd: 'hello' })
+  obtainMessage(data: any, @Ctx() context: RmqContext) {
+    const args = process.argv.slice(2);
+    const key = args.length > 0 ? args[0] : 'user.info';
+
+    // channel.assertExchange('exchange', 'topic', {
+    //   durable: false,
+    // });
+    // channel.publish('exchange', key, Buffer.from(data));
+    console.log(" [x] Sent %s:'%s'", key, data);
+    console.log(data);
   }
 }

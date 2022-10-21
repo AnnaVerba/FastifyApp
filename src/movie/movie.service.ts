@@ -1,41 +1,51 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Movie } from './models/movie.model';
 import { InjectModel } from '@nestjs/sequelize';
 //import { Op } from 'sequelize';
 
 import { Sequelize } from 'sequelize-typescript';
-import { ClientProxy } from '@nestjs/microservices';
+//import { ClientProxy } from '@nestjs/microservices';
+//import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
+//import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 
 @Injectable()
 export class MovieService {
   constructor(
     @InjectModel(Movie)
     private readonly movie: typeof Movie,
-    private readonly sequelize: Sequelize,
-    @Inject('Communication')
-    private readonly communicationClient: ClientProxy,
+    private readonly sequelize: Sequelize, // @Inject('Communication') // private readonly communicationClient: ClientProxy,
   ) {}
 
   async createRow(movie): Promise<Movie> {
-    await this.communicationClient.connect();
-    this.communicationClient.emit('movie created', movie);
-    return this.movie.create(movie);
+    const created = await this.movie.create(movie);
+    //this.communicationClient.emit('movie created', created);
+
+    return created;
   }
 
-  upDateRow(body, movie): Promise<any> {
-    return this.movie.update(body, { where: { id: movie } });
+  async upDateRow(body, movie): Promise<any> {
+    const created = await this.movie.update(body, { where: { id: movie } });
+    // this.communicationClient.emit('movie updated to:', movie);
+    return created;
   }
 
-  deleteMovie(movie): Promise<any> {
-    return this.movie.destroy({ where: { id: movie } });
+  async deleteMovie(movie): Promise<any> {
+    const deleted = await this.movie.destroy({ where: { id: movie } });
+    // this.communicationClient.emit('movie deleted:', deleted);
+    return deleted;
   }
 
-  getMovieById(movie): Promise<Movie> {
-    return this.movie.findOne({ where: { id: movie } });
+  async getMovieById(movie): Promise<Movie> {
+    const get = await this.movie.findOne({ where: { id: movie } });
+    // this.communicationClient.emit('received movie:', get);
+    return get;
   }
 
   async getAllMovies(): Promise<any> {
-    return this.movie.findAll();
+    const movie = await this.movie.findAll();
+    //this.communicationClient.emit('movies:', JSON.stringify(movie));
+
+    return movie;
   }
 
   async searchByAll(search, value): Promise<Movie[]> {
@@ -43,9 +53,11 @@ export class MovieService {
       throw new Error('You should provide correct field');
     }
     try {
-      return this.movie.findAll({
+      const movie = await this.movie.findAll({
         where: this.sequelize.where(this.sequelize.col(`${search}`), value),
       });
+      // this.communicationClient.emit('search complete:', movie);
+      return movie;
     } catch (e) {
       throw new Error(e);
     }
