@@ -14,7 +14,7 @@ import { MovieService } from './movie.service';
 import { Movie } from './models/movie.model';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Ctx, MessagePattern, RmqContext } from '@nestjs/microservices';
-import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import { AmqpConnection, RabbitRPC } from '@golevelup/nestjs-rabbitmq';
 //import { ConsumeMessage } from 'amqplib';
 @Controller('movie')
 export class MovieController {
@@ -27,6 +27,11 @@ export class MovieController {
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()
   @UseGuards()
+  @RabbitRPC({
+    routingKey: 'user.info#',
+    exchange: 'exchange1',
+    queue: 'hello',
+  })
   async createMovie(@Body() body: any): Promise<Movie> {
     if (!body) {
       console.log(body.name);

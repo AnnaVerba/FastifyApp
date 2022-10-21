@@ -1,24 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Movie } from './models/movie.model';
 import { InjectModel } from '@nestjs/sequelize';
 //import { Op } from 'sequelize';
 
 import { Sequelize } from 'sequelize-typescript';
-//import { ClientProxy } from '@nestjs/microservices';
-//import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
-//import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class MovieService {
   constructor(
     @InjectModel(Movie)
     private readonly movie: typeof Movie,
-    private readonly sequelize: Sequelize, // @Inject('Communication') // private readonly communicationClient: ClientProxy,
+    private readonly sequelize: Sequelize,
+    @Inject('Communication')
+    private readonly communicationClient: ClientProxy,
   ) {}
 
   async createRow(movie): Promise<Movie> {
     const created = await this.movie.create(movie);
-    //this.communicationClient.emit('movie created', created);
+    this.communicationClient.emit('movie created', created);
 
     return created;
   }

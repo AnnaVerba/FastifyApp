@@ -32,7 +32,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
           type: 'topic',
         },
       ],
-      uri: 'amqp://admin:SecurePassword@localhost:5672',
+      uri: 'amqp://localhost:5672',
     }),
   ],
 
