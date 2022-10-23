@@ -28,7 +28,7 @@ export class MovieController {
   @ApiBearerAuth()
   @UseGuards()
   @RabbitRPC({
-    routingKey: 'user.info#',
+    routingKey: 'user.info',
     exchange: 'exchange1',
     queue: 'hello',
   })
@@ -41,7 +41,7 @@ export class MovieController {
     try {
       const movie = await this.movieService.createRow(body);
       this.amqpConnection.publish('exchange1', 'user.info', {
-        msg: 'Movie created!!!',
+        msg: movie,
       });
 
       return movie;
@@ -89,21 +89,21 @@ export class MovieController {
   @Get()
   async getMovies(): Promise<Movie[]> {
     try {
-      return await this.movieService.getAllMovies();
+    const movie=await this.movieService.getAllMovies();
+      this.amqpConnection.publish('exchange1', 'user.info', {
+        msg: movie,
+      });
+      return movie
     } catch (err) {
       return err;
     }
   }
-  @MessagePattern({ cmd: 'hello' })
-  obtainMessage(data: any, @Ctx() context: RmqContext) {
-    const args = process.argv.slice(2);
-    const key = args.length > 0 ? args[0] : 'user.info';
-
-    // channel.assertExchange('exchange', 'topic', {
-    //   durable: false,
-    // });
-    // channel.publish('exchange', key, Buffer.from(data));
-    console.log(" [x] Sent %s:'%s'", key, data);
-    console.log(data);
+  @RabbitSubscribe({
+    routingKey: 'user.info',
+    exchange: 'exchange1',
+    queue: 'hello',
+  })
+  obtainMessage(data: any) {
+        console.log(`Received pub/sub message: ${JSON.stringify(data)}`);
   }
 }
