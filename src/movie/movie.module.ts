@@ -33,6 +33,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         },
       ],
       uri: 'amqp://localhost:5672',
+       enableControllerDiscovery: true,
     }),
     MovieModule, //can be problem
   ],
