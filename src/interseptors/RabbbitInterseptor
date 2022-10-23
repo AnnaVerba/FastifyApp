@@ -1,0 +1,15 @@
+
+@Injectable()
+class RabbitInterceptor implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler<any>) {
+    const contextType = context.getType<'http' | 'rmq'>();
+
+  
+    if (contextType === 'rmq') {
+      return next.handle();
+    }
+
+  
+    return next.handle();
+  }
+}
