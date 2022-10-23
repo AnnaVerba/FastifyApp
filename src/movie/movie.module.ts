@@ -11,20 +11,20 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 @Module({
   imports: [
     SequelizeModule.forFeature([Movie]),
-    ClientsModule.register([
-      {
-        name: 'Communication',
+    //ClientsModule.register([
+     // {
+      //  name: 'Communication',
 
-        transport: Transport.RMQ,
-        options: {
-          urls: ['amqp://localhost:5672'],
-          queue: 'hello',
-          queueOptions: {
-            durable: false,
-          },
-        },
-      },
-    ]),
+       // transport: Transport.RMQ,
+       // options: {
+        //  urls: ['amqp://localhost:5672'],
+        //  queue: 'hello',
+         // queueOptions: {
+          //  durable: false,
+         // },
+        //},
+     // },
+   // ]),
     RabbitMQModule.forRoot(RabbitMQModule, {
       exchanges: [
         {
@@ -34,6 +34,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       ],
       uri: 'amqp://localhost:5672',
     }),
+    MovieModule, //can be problem
   ],
 
   providers: [MovieService],
