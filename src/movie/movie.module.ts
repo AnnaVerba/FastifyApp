@@ -5,26 +5,13 @@ import { MovieService } from './movie.service';
 import { MovieController } from './movie.controller';
 //import { ClientsModule, Transport } from '@nestjs/microservices';
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { MessagingService } from './MessagingService';
 //import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([Movie]),
-    //ClientsModule.register([
-     // {
-      //  name: 'Communication',
 
-       // transport: Transport.RMQ,
-       // options: {
-        //  urls: ['amqp://localhost:5672'],
-        //  queue: 'hello',
-         // queueOptions: {
-          //  durable: false,
-         // },
-        //},
-     // },
-   // ]),
     RabbitMQModule.forRoot(RabbitMQModule, {
       exchanges: [
         {
@@ -32,13 +19,14 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
           type: 'topic',
         },
       ],
+
       uri: 'amqp://localhost:5672',
-       enableControllerDiscovery: true,
+      //enableControllerDiscovery: true,
     }),
-    MovieModule, //can be problem
+    MovieModule,
   ],
 
-  providers: [MovieService],
+  providers: [MovieService, MessagingService, MovieController],
   controllers: [MovieController],
 })
 export class MovieModule {}

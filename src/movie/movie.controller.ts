@@ -13,25 +13,18 @@ import {
 import { MovieService } from './movie.service';
 import { Movie } from './models/movie.model';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { Ctx, MessagePattern, RmqContext } from '@nestjs/microservices';
-import { AmqpConnection, RabbitRPC } from '@golevelup/nestjs-rabbitmq';
+
+
+
 //import { ConsumeMessage } from 'amqplib';
 @Controller('movie')
 export class MovieController {
-  constructor(
-    private readonly movieService: MovieService,
-    private readonly amqpConnection: AmqpConnection,
-  ) {}
+  constructor(private readonly movieService: MovieService) {}
 
   @Post()
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()
   @UseGuards()
-  @RabbitRPC({
-    routingKey: 'user.info',
-    exchange: 'exchange1',
-    queue: 'hello',
-  })
   async createMovie(@Body() body: any): Promise<Movie> {
     if (!body) {
       console.log(body.name);
@@ -39,12 +32,7 @@ export class MovieController {
       return null;
     }
     try {
-      const movie = await this.movieService.createRow(body);
-      this.amqpConnection.publish('exchange1', 'user.info', {
-        msg: movie,
-      });
-
-      return movie;
+      return await this.movieService.createRow(body);
     } catch (e) {
       return e;
     }
@@ -89,21 +77,19 @@ export class MovieController {
   @Get()
   async getMovies(): Promise<Movie[]> {
     try {
-    const movie=await this.movieService.getAllMovies();
-      this.amqpConnection.publish('exchange1', 'user.info', {
-        msg: movie,
-      });
-      return movie
+      return await this.movieService.getAllMovies();
     } catch (err) {
       return err;
     }
   }
-  @RabbitSubscribe({
-    routingKey: 'user.info',
-    exchange: 'exchange1',
-    queue: 'hello',
-  })
-  obtainMessage(data: any) {
-        console.log(`Received pub/sub message: ${JSON.stringify(data)}`);
-  }
+
+  //   @RabbitSubscribe({
+  //     routingKey: 'replay',
+  //     exchange: 'exchange2',
+  //     queue: 'replay',
+  //   })
+  //   obtainMessage(data: any) {
+  //     console.log(`Received message from consumer: ${JSON.stringify(data)}`);
+  //   }
+  // }
 }
