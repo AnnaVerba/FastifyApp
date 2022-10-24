@@ -12,17 +12,6 @@ import { MessagingService } from './MessagingService';
   imports: [
     SequelizeModule.forFeature([Movie]),
 
-    RabbitMQModule.forRoot(RabbitMQModule, {
-      exchanges: [
-        {
-          name: 'exchange1',
-          type: 'topic',
-        },
-      ],
-
-      uri: 'amqp://localhost:5672',
-      //enableControllerDiscovery: true,
-    }),
     MovieModule,
   ],
 
