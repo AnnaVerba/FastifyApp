@@ -5,19 +5,18 @@ import { RabbitRPC } from '@golevelup/nestjs-rabbitmq';
 
 @Injectable()
 export class MessagingService {
-    @RabbitRPC({
-        routingKey: 'replay.#',
-        exchange: 'exchange1',
-        queue: 'hello',
-    })
-    public async rpcHandler(msg: any, amqpMsg: ConsumeMessage) {
-        console.log(
-            'Routing key:' + amqpMsg.fields.routingKey,
-            `\nProducer received :`,
-            amqpMsg.content.toString(),
-        );
+  @RabbitRPC({
+    routingKey: 'replay.#',
+    exchange: 'exchange1',
+    queue: 'hello',
+  })
+  public async rpcHandler(msg: any, amqpMsg: ConsumeMessage) {
+    console.log(
+      'Routing key:' + amqpMsg.fields.routingKey,
+      `\nProducer received :`,
+      amqpMsg.content.toString(),
+    );
 
-        return msg;
-    }
+    return msg;
+  }
 }
-
