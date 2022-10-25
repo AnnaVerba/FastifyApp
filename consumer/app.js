@@ -16,9 +16,9 @@ async function connect() {
     durable: true,
   });
   await channel.bindQueue(queue, 'exchange1', 'user.info');
-  try {
-    console.log(' [*] Waiting for messages in %s. To exit press CTRL+C', queue);
 
+  console.log(' [*] Waiting for messages in %s. To exit press CTRL+C', queue);
+  try {
     await channel.consume(queue, message, {
       noAck: true,
     });
