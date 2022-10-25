@@ -10,7 +10,7 @@ import { SingleFileInterceptor } from '../../interseptors/SingleFileInterseptor'
 
 @Controller('upload')
 export class UploadController {
-  constructor() {}
+  //constructor() {}
 
   @Post()
   @UseInterceptors(SingleFileInterceptor('file', './files'))

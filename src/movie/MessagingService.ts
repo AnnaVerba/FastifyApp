@@ -21,4 +21,20 @@ export class MessagingService {
 
     return msg;
   }
+
+  // @RabbitRPC({
+  //   routingKey: 'test#',
+  //   exchange: 'hardTestExchange',
+  //   queue: 'hardTest',
+  // })
+  // public async TestHandler(msg: any, amqpMsg: ConsumeMessage) {
+  //   logger.info(
+  //     'Routing key:' +
+  //       amqpMsg.fields.routingKey +
+  //       `\nProducer received :` +
+  //       amqpMsg.content.toString(),
+  //   );
+  //
+  //   return msg;
+  // }
 }

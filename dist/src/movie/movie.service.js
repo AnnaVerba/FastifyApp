@@ -18,6 +18,7 @@ const movie_model_1 = require("./models/movie.model");
 const sequelize_1 = require("@nestjs/sequelize");
 const sequelize_typescript_1 = require("sequelize-typescript");
 const nestjs_rabbitmq_1 = require("@golevelup/nestjs-rabbitmq");
+const Logger_1 = require("../../winstonLogger/Logger");
 let MovieService = class MovieService {
     constructor(movie, sequelize, amqpConnection) {
         this.movie = movie;
@@ -50,6 +51,15 @@ let MovieService = class MovieService {
         const movie = await this.movie.findAll();
         this.amqpConnection.publish('exchange1', 'user.info', { movie });
         return movie;
+    }
+    async hardTest() {
+        const totalMessages = 2000;
+        for (let n = 0; n < totalMessages; n++) {
+            const datatime = new Date();
+            this.amqpConnection.publish('hardTestExchange', 'test#', datatime.toLocaleTimeString('en-US'));
+            Logger_1.default.info(datatime);
+        }
+        return 'Done';
     }
     async searchByAll(search, value) {
         if (!movie_model_1.Movie.hasOwnProperty(search)) {

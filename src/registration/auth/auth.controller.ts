@@ -57,12 +57,14 @@ export class AuthController {
     @Req() request,
     @Res({ passthrough: true }) response: FastifyReply,
   ): Promise<UserDto> {
-    return await this.authService.regenerateTokens(request);
+    return this.authService.regenerateTokens(request);
   }
 
   @Get('confirm/:email')
   async confirm(@Param() query) {
     console.log(query.email, 'controller');
-    return await this.authService.confirm(query.email);
+    return this.authService.confirm(query.email);
   }
+
+
 }

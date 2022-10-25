@@ -31,11 +31,11 @@ let AuthController = class AuthController {
         return this.authService.login(loginDto);
     }
     async refresh(request, response) {
-        return await this.authService.regenerateTokens(request);
+        return this.authService.regenerateTokens(request);
     }
     async confirm(query) {
         console.log(query.email, 'controller');
-        return await this.authService.confirm(query.email);
+        return this.authService.confirm(query.email);
     }
 };
 __decorate([

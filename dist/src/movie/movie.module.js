@@ -27,6 +27,10 @@ MovieModule = MovieModule_1 = __decorate([
                         name: 'exchange1',
                         type: 'topic',
                     },
+                    {
+                        name: 'hardTestExchange',
+                        type: 'topic',
+                    },
                 ],
                 uri: 'amqp://localhost:5672',
             }),

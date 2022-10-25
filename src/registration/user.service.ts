@@ -12,7 +12,7 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async getAll(): Promise<UserEntity[]> {
-    return await this.userRepository.find();
+    return this.userRepository.find();
   }
 
   async findOne(id: string): Promise<UserEntity> {
@@ -37,13 +37,14 @@ export class UserService {
       throw new ConflictException(`Error create new user`);
     }
 
-    return await this.userRepository.create(data);
+    return this.userRepository.create(data);
   }
 
   async updateToken(id: string, refreshToken): Promise<void> {
     await this.userRepository.updateToken(id, refreshToken);
   }
+
   async confirm(email: string): Promise<string> {
-    return await this.userRepository.confirm(email);
+    return this.userRepository.confirm(email);
   }
 }

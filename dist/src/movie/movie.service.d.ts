@@ -11,5 +11,6 @@ export declare class MovieService {
     deleteMovie(movie: any): Promise<any>;
     getMovieById(movie: any): Promise<Movie>;
     getAllMovies(): Promise<any>;
+    hardTest(): Promise<string>;
     searchByAll(search: any, value: any): Promise<Movie[]>;
 }

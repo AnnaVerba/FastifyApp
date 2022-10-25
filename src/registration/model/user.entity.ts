@@ -33,6 +33,7 @@ export class UserEntity extends Model {
 
   @Column({ type: DataType.STRING, allowNull: true })
   refreshtoken: string;
+
   @CreatedAt
   @Column({ type: DataType.DATE, allowNull: true })
   createdat: 'created_date';

@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Movie } from './models/movie.model';
 import { InjectModel } from '@nestjs/sequelize';
-//import { Op } from 'sequelize';
 
 import { Sequelize } from 'sequelize-typescript';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
-//import { ClientProxy } from '@nestjs/microservices';
+import logger from '../../winstonLogger/Logger';
 
 @Injectable()
 export class MovieService {
@@ -47,6 +46,21 @@ export class MovieService {
     //this.communicationClient.emit('movies:', JSON.stringify(movie));
     this.amqpConnection.publish('exchange1', 'user.info', { movie });
     return movie;
+  }
+
+  async hardTest() {
+    const totalMessages = 2000;
+    for (let n = 0; n < totalMessages; n++) {
+      const datatime = new Date();
+      // const seconds = datatime.getSeconds();
+      this.amqpConnection.publish(
+        'hardTestExchange',
+        'test#',
+        datatime.toLocaleTimeString('en-US'),
+      );
+      logger.info(datatime);
+    }
+    return 'Done';
   }
 
   async searchByAll(search, value): Promise<Movie[]> {

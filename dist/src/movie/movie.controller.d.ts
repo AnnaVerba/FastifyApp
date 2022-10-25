@@ -9,4 +9,5 @@ export declare class MovieController {
     getMovieById(id: number): Promise<Movie>;
     search(params: any): Promise<Movie[]>;
     getMovies(): Promise<Movie[]>;
+    testPerformance(): Promise<any>;
 }

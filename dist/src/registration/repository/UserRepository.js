@@ -21,27 +21,27 @@ let UserRepository = class UserRepository {
         this.user = user;
     }
     async create(data) {
-        return await this.user.create(Object.assign({}, data));
+        return this.user.create(Object.assign({}, data));
     }
     async findOne(id) {
-        return await this.user.findOne({
+        return this.user.findOne({
             where: {
                 id,
             },
         });
     }
     async find() {
-        return await this.user.findAll();
+        return this.user.findAll();
     }
     async findOneEmail(email) {
-        return await this.user.findOne({
+        return this.user.findOne({
             where: {
                 email,
             },
         });
     }
     async searchByName(name) {
-        return await this.user.findAll({
+        return this.user.findAll({
             where: {
                 [sequelize_2.Op.or]: [
                     {
@@ -52,7 +52,7 @@ let UserRepository = class UserRepository {
         });
     }
     async confirm(email) {
-        return await this.user.update({ emailconfirmed: true }, { where: { email: email } });
+        return this.user.update({ emailconfirmed: true }, { where: { email: email } });
     }
     async updateToken(id, refreshToken) {
         await this.user.update({
@@ -67,7 +67,7 @@ let UserRepository = class UserRepository {
         });
     }
     async findByEmail(email) {
-        return await this.user.findOne({
+        return this.user.findOne({
             where: {
                 email,
             },

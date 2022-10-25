@@ -81,13 +81,13 @@ export class MovieController {
     }
   }
 
-  //   @RabbitSubscribe({
-  //     routingKey: 'replay',
-  //     exchange: 'exchange2',
-  //     queue: 'replay',
-  //   })
-  //   obtainMessage(data: any) {
-  //     console.log(`Received message from consumer: ${JSON.stringify(data)}`);
-  //   }
-  // }
+  @Get('hardTest')
+  async testPerformance() {
+    try {
+      await this.movieService.hardTest();
+      return 'done';
+    } catch (err) {
+      return err;
+    }
+  }
 }

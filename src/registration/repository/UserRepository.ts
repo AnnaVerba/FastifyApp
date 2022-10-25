@@ -11,21 +11,23 @@ export class UserRepository {
   ) {}
 
   async create(data: LoginUserDto): Promise<UserEntity> {
-    return await this.user.create({ ...data });
+    return this.user.create({ ...data });
   }
 
   async findOne(id: string): Promise<UserEntity> {
-    return await this.user.findOne({
+    return this.user.findOne({
       where: {
         id,
       },
     });
   }
+
   async find(): Promise<any> {
-    return await this.user.findAll();
+    return this.user.findAll();
   }
+
   async findOneEmail(email: string): Promise<UserEntity> {
-    return await this.user.findOne({
+    return this.user.findOne({
       where: {
         email,
       },
@@ -33,7 +35,7 @@ export class UserRepository {
   }
 
   async searchByName(name: string): Promise<UserEntity[]> {
-    return await this.user.findAll({
+    return this.user.findAll({
       where: {
         [Op.or]: [
           {
@@ -43,8 +45,9 @@ export class UserRepository {
       },
     });
   }
+
   async confirm(email: string): Promise<any> {
-    return await this.user.update(
+    return this.user.update(
       { emailconfirmed: true },
       { where: { email: email } },
     );
@@ -68,7 +71,7 @@ export class UserRepository {
   }
 
   async findByEmail(email: string) {
-    return await this.user.findOne({
+    return this.user.findOne({
       where: {
         email,
       },

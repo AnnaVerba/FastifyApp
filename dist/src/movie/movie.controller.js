@@ -58,11 +58,20 @@ let MovieController = class MovieController {
         }
     }
     async search(params) {
-        return await this.movieService.searchByAll(params.search, params.value);
+        return this.movieService.searchByAll(params.search, params.value);
     }
     async getMovies() {
         try {
             return await this.movieService.getAllMovies();
+        }
+        catch (err) {
+            return err;
+        }
+    }
+    async testPerformance() {
+        try {
+            await this.movieService.hardTest();
+            return 'done';
         }
         catch (err) {
             return err;
@@ -118,6 +127,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], MovieController.prototype, "getMovies", null);
+__decorate([
+    (0, common_1.Get)('hardTest'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], MovieController.prototype, "testPerformance", null);
 MovieController = __decorate([
     (0, common_1.Controller)('movie'),
     __metadata("design:paramtypes", [movie_service_1.MovieService])

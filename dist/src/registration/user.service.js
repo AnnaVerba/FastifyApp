@@ -17,7 +17,7 @@ let UserService = class UserService {
         this.userRepository = userRepository;
     }
     async getAll() {
-        return await this.userRepository.find();
+        return this.userRepository.find();
     }
     async findOne(id) {
         const user = await this.userRepository.findOne(id);
@@ -36,13 +36,13 @@ let UserService = class UserService {
         if (userEmailCheck) {
             throw new common_1.ConflictException(`Error create new user`);
         }
-        return await this.userRepository.create(data);
+        return this.userRepository.create(data);
     }
     async updateToken(id, refreshToken) {
         await this.userRepository.updateToken(id, refreshToken);
     }
     async confirm(email) {
-        return await this.userRepository.confirm(email);
+        return this.userRepository.confirm(email);
     }
 };
 UserService = __decorate([

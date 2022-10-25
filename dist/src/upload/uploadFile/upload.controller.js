@@ -16,7 +16,6 @@ exports.UploadController = void 0;
 const common_1 = require("@nestjs/common");
 const SingleFileInterseptor_1 = require("../../interseptors/SingleFileInterseptor");
 let UploadController = class UploadController {
-    constructor() { }
     async uploadedFile(file) {
         console.log(file);
     }
@@ -30,8 +29,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UploadController.prototype, "uploadedFile", null);
 UploadController = __decorate([
-    (0, common_1.Controller)('upload'),
-    __metadata("design:paramtypes", [])
+    (0, common_1.Controller)('upload')
 ], UploadController);
 exports.UploadController = UploadController;
 //# sourceMappingURL=upload.controller.js.map
