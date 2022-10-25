@@ -2,32 +2,32 @@ import amqplib from 'amqplib';
 import logger from '../winstonLogger/Logger';
 import { replayKey } from '../shared/consts';
 
-const trueOrFalse = true;
+const durableIsTrue = true;
 async function connect() {
   const amqpServer = 'amqp://localhost:5672';
   const connection = await amqplib.connect(amqpServer);
   const channel = await connection.createChannel();
   const queue = 'hello';
   await channel.assertExchange('exchange1', 'topic', {
-    durable: trueOrFalse,
+    durable: durableIsTrue,
   });
   await channel.assertQueue(queue, {
-    durable: trueOrFalse,
+    durable: durableIsTrue,
   });
   await channel.assertQueue('replay', {
-    durable: trueOrFalse,
+    durable: durableIsTrue,
   });
   await channel.bindQueue(queue, 'exchange1', 'user.info');
   try {
     console.log(' [*] Waiting for messages in %s. To exit press CTRL+C', queue);
 
-    await channel.consume(queue, message, {
-      noAck: trueOrFalse,
+    await channel.consume(queue, publisher, {
+      noAck: durableIsTrue,
     });
   } catch (error) {
     console.log(error);
   }
-  function message(msg: any) {
+  function publisher(msg: any) {
     logger.info(' [x] Received %s' + msg.content.toString());
     channel.publish(
       'exchange1',

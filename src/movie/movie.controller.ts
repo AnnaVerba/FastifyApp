@@ -14,8 +14,6 @@ import { MovieService } from './movie.service';
 import { Movie } from './models/movie.model';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
-
-
 //import { ConsumeMessage } from 'amqplib';
 @Controller('movie')
 export class MovieController {
@@ -71,7 +69,7 @@ export class MovieController {
   @ApiBearerAuth()
   @UseGuards()
   async search(@Param() params): Promise<Movie[]> {
-    return await this.movieService.searchByAll(params.search, params.value);
+    return this.movieService.searchByAll(params.search, params.value);
   }
 
   @Get()
