@@ -8,6 +8,7 @@ import fastifyCookie from '@fastify/cookie';
 import { contentParser } from 'fastify-multer';
 import { ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
+//import winston from 'winston';
 
 dotenv.config({ path: './.env/.env' });
 async function bootstrap() {
@@ -21,7 +22,7 @@ async function bootstrap() {
   });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
-
-  await app.listen(8002);
+  // app.use(winston);
+  await app.listen(process.env.apiPort);
 }
 bootstrap();
