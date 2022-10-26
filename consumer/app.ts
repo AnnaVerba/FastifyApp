@@ -7,7 +7,7 @@ const hardTestQueue = 'hardTest';
 const amqpServer = 'amqp://localhost:5672';
 
 const queue = 'hello';
-
+let consumedMessages = 0;
 async function connect() {
   const connection = await amqplib.connect(amqpServer);
   const channel = await connection.createChannel();
@@ -32,22 +32,22 @@ async function connect() {
       Buffer.from(msg.content.toString()),
     );
   }
-  let consumedMessages = 0;
+  function hardtest(msg: any) {
+    const date = new Date();
+    const timestamp = `${date.toLocaleTimeString()}:${date.getMilliseconds()}`;
+    consumedMessages++;
+    if (msg != null)
+      logger.info(
+        `consumed: ${consumedMessages} timestamp: ${timestamp} message: ${msg.content.toString()}`,
+      );
+    if (msg === null) {
+      consumedMessages = 0;
+    }
+  }
   try {
     console.log(' [*] Waiting for messages in %s. To exit press CTRL+C', queue);
 
-    await channel.consume(
-      hardTestQueue,
-      (msg: any) => {
-        const timestamp = new Date().toLocaleTimeString();
-        consumedMessages++;
-        if (msg != null)
-          logger.info(
-            `consumed ${consumedMessages}: ${timestamp}-${msg.content.toString()}`,
-          );
-      },
-      { noAck: true },
-    );
+    await channel.consume(hardTestQueue, hardtest, { noAck: true });
     await channel.consume(queue, publisher, {
       noAck: true,
     });

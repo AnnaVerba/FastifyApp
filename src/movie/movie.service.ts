@@ -49,16 +49,16 @@ export class MovieService {
   }
 
   async hardTest() {
-    const totalMessages = 2000;
+    const totalMessages = 20;
     for (let n = 0; n < totalMessages; n++) {
       const datatime = new Date();
-      // const seconds = datatime.getSeconds();
+      const miliseconds = datatime.getMilliseconds();
       this.amqpConnection.publish(
         'hardTestExchange',
         'test#',
-        datatime.toLocaleTimeString('en-US'),
+        Buffer.from(`${datatime.toLocaleTimeString()} : ${miliseconds}`),
       );
-      logger.info(datatime);
+      logger.info(`${n} :${datatime.toLocaleTimeString()} : ${miliseconds}`);
     }
     return 'Done';
   }
