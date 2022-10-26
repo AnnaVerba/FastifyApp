@@ -8,7 +8,6 @@ import { AuthModule } from './registration/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserEntity } from './registration/model/user.entity';
 
-console.log(process.env.database);
 @Module({
   imports: [
     SequelizeModule.forRoot({

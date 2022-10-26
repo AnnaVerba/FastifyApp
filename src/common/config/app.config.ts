@@ -17,8 +17,8 @@ export class AppConfig {
     return this;
   }
 
-  public getHost(): string {
-    return this.getValue('HOST') || '0.0.0.0';
+  public getAmountOoMessages(): string |number {
+    return this.getValue('TotalMessages') || 1;
   }
 
   public getPort(): string | number {

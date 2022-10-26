@@ -9,7 +9,6 @@ import { contentParser } from 'fastify-multer';
 import { ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 
-
 dotenv.config({ path: './.env/.env' });
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -22,7 +21,7 @@ async function bootstrap() {
   });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
-  // app.use(winston);
+
   await app.listen(process.env.apiPort);
 }
 bootstrap();

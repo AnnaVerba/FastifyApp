@@ -45,6 +45,7 @@ export class AuthService {
       text,
     });
   }
+
   async login(dto: LoginUserDto): Promise<UserDto> {
     const user: UserEntity = await this.userService.findByEmail(dto.email);
     if (!(user.emailconfirmed === true)) {
@@ -114,8 +115,9 @@ export class AuthService {
   }
 
   async confirm(email: string): Promise<string> {
-    return await this.userService.confirm(email);
+    return this.userService.confirm(email);
   }
+
   public async getJwtToken(user: UserEntity): Promise<string> {
     const payload = {
       ...user,

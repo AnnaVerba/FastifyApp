@@ -11,6 +11,7 @@ import {
   replayKey,
   testKey,
 } from '../../common/constants';
+import {appConfig} from "../../common/config/app.config";
 
 const ExchangeMovie: ExchangeType = {
   routingKey: replayKey,
@@ -34,7 +35,7 @@ export class MessagingService {
   }
 
   async hardTest() {
-    const totalMessages = 3000;
+    const totalMessages = appConfig.getAmountOoMessages();
     for (let n = 1; n <= totalMessages; n++) {
       const datatime = new Date();
       const timestamp = `${datatime.toLocaleTimeString()} : ${datatime.getMilliseconds()}`;
