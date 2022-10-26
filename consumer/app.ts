@@ -1,6 +1,6 @@
 import amqplib from 'amqplib';
 import logger from '../winstonLogger/Logger';
-import { replayKey } from '../shared/consts';
+import { replayKey } from '../src/common/constants/consts';
 
 const durableIsTrue = true;
 const hardTestQueue = 'hardTest';

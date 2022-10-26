@@ -7,8 +7,8 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AuthService } from '../registration/auth/auth.service';
-import { UserEntity } from '../registration/model/user.entity';
+import { AuthService } from '../../modeles/registration/auth/auth.service';
+import { UserEntity } from '../../modeles/registration/model/user.entity';
 
 @Injectable()
 export class CookieTokenInterceptor implements NestInterceptor {

@@ -5,7 +5,7 @@ import { MovieService } from './movie.service';
 import { MovieController } from './movie.controller';
 
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
-import { MessagingService } from './MessagingService';
+import { MessagingService } from '../messaging_with_rabbitqm/MessagingService';
 
 @Module({
   imports: [

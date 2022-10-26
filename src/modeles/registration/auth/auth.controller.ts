@@ -22,8 +22,8 @@ import { AuthService } from './auth.service';
 import { UserDto } from '../model/dto/User.dto';
 import { LoginUserDto } from '../model/dto/LoginUser';
 import { FastifyReply } from 'fastify';
-import { TokenInterceptor } from '../../interseptors/token.interceptor';
-import { CookieTokenInterceptor } from '../../interseptors/cookie-token.interceptor';
+import { TokenInterceptor } from '../../../shared/interseptors/token.interceptor';
+import { CookieTokenInterceptor } from '../../../shared/interseptors/cookie-token.interceptor';
 
 @Controller('auth')
 @ApiTags('Authentication')

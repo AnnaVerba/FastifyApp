@@ -10,7 +10,7 @@ import {
 import { Observable } from 'rxjs';
 import FastifyMulter from 'fastify-multer';
 import { Options, Multer, diskStorage } from 'multer';
-import { editFileName, imageFileFilter } from '../upload/edit';
+import { editFileName, imageFileFilter } from '../../modeles/upload/edit';
 
 export function SingleFileInterceptor(
   fieldName: string,

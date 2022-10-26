@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 
 import { Express } from 'express';
-import { SingleFileInterceptor } from '../../interseptors/SingleFileInterseptor';
+import { SingleFileInterceptor } from '../../../shared/interseptors/SingleFileInterseptor';
 
 @Controller('upload')
 export class UploadController {

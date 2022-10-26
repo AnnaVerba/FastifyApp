@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/sequelize';
 
 import { Sequelize } from 'sequelize-typescript';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
-import logger from '../../winstonLogger/Logger';
+import logger from '../../../winstonLogger/Logger';
 
 @Injectable()
 export class MovieService {
