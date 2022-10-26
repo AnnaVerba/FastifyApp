@@ -3,7 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { AppConfig, appConfig } from '../config/app.config';
+import { AppConfig, appConfig } from '../../../common/config/app.config';
 import { UserEntity } from '../model/user.entity';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';

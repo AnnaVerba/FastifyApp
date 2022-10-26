@@ -14,7 +14,6 @@ import { MovieService } from './movie.service';
 import { Movie } from './models/movie.model';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
-//import { ConsumeMessage } from 'amqplib';
 @Controller('movie')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
@@ -76,16 +75,6 @@ export class MovieController {
   async getMovies(): Promise<Movie[]> {
     try {
       return await this.movieService.getAllMovies();
-    } catch (err) {
-      return err;
-    }
-  }
-
-  @Get('hardTest')
-  async testPerformance() {
-    try {
-      await this.movieService.hardTest();
-      return 'done';
     } catch (err) {
       return err;
     }

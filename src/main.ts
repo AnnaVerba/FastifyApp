@@ -8,7 +8,7 @@ import fastifyCookie from '@fastify/cookie';
 import { contentParser } from 'fastify-multer';
 import { ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
-//import winston from 'winston';
+
 
 dotenv.config({ path: './.env/.env' });
 async function bootstrap() {

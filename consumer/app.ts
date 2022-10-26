@@ -1,27 +1,29 @@
 import amqplib from 'amqplib';
 import logger from '../winstonLogger/Logger';
-import { replayKey } from '../src/common/constants/consts';
+import { replayKey } from '../src/common/constants';
 
-const durableIsTrue = true;
+const isDurable = true;
 const hardTestQueue = 'hardTest';
-const amqpServer = 'amqp://localhost:5672';
+import * as dotenv from 'dotenv';
+const port = process.env.amqpServer;
+
+dotenv.config({ path: './.env/.env' });
 
 const queue = 'hello';
 let consumedMessages = 0;
 async function connect() {
-  const connection = await amqplib.connect(amqpServer);
+  const connection = await amqplib.connect(`amqp://${port}`);
   const channel = await connection.createChannel();
   await channel.assertExchange('exchange1', 'topic', {
-    durable: durableIsTrue,
+    durable: isDurable,
   });
 
   await channel.assertQueue(queue, {
-    durable: durableIsTrue,
+    durable: isDurable,
   });
   await channel.assertQueue('replay', {
-    durable: durableIsTrue,
+    durable: isDurable,
   });
-
   await channel.bindQueue(queue, 'exchange1', 'user.info');
 
   function publisher(msg: any) {
@@ -38,15 +40,11 @@ async function connect() {
     consumedMessages++;
     if (msg != null)
       logger.info(
-        `consumed: ${consumedMessages} timestamp: ${timestamp} message: ${msg.content.toString()}`,
+        `Number of consumed: ${consumedMessages} consumed at: ${timestamp} message(published at): ${msg.content.toString()}`,
       );
-    if (msg === null) {
-      consumedMessages = 0;
-    }
   }
   try {
     console.log(' [*] Waiting for messages in %s. To exit press CTRL+C', queue);
-
     await channel.consume(hardTestQueue, hardtest, { noAck: true });
     await channel.consume(queue, publisher, {
       noAck: true,

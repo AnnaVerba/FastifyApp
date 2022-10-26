@@ -32,8 +32,9 @@ export class AppConfig {
   public getJwtExpired(): string | undefined {
     return this.getValue('JWT_EXPIRED', true);
   }
-  public getUrl(): string | undefined {
-    return this.getValue('EMAIL_CONFIRMATION_URL', true);
+
+  public getUri(): string | undefined {
+    return this.getValue('RabbitMQConnectionURI', true);
   }
 }
 

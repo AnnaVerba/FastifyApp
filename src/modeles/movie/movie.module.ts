@@ -5,7 +5,10 @@ import { MovieService } from './movie.service';
 import { MovieController } from './movie.controller';
 
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
-import { MessagingService } from '../messaging_with_rabbitqm/MessagingService';
+import { MessagingService } from '../messaging_with_rabbitqm/messaging.service';
+import { MessagingController } from '../messaging_with_rabbitqm/messaging.controller';
+import { exchange1, hardTestExchange, isTopic } from '../../common/constants';
+import { appConfig } from '../../common/config/app.config';
 
 @Module({
   imports: [
@@ -14,21 +17,26 @@ import { MessagingService } from '../messaging_with_rabbitqm/MessagingService';
     RabbitMQModule.forRoot(RabbitMQModule, {
       exchanges: [
         {
-          name: 'exchange1',
-          type: 'topic',
+          name: exchange1,
+          type: isTopic,
         },
         {
-          name: 'hardTestExchange',
-          type: 'topic',
+          name: hardTestExchange,
+          type: isTopic,
         },
       ],
 
-      uri: 'amqp://localhost:5672',
+      uri: appConfig.getUri(),
     }),
     MovieModule,
   ],
 
-  providers: [MovieService, MessagingService, MovieController],
-  controllers: [MovieController],
+  providers: [
+    MovieService,
+    MessagingService,
+    MovieController,
+    MessagingController,
+  ],
+  controllers: [MovieController, MessagingController],
 })
 export class MovieModule {}
