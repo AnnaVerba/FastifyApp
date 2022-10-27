@@ -7,7 +7,7 @@ import { MovieController } from './movie.controller';
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { MessagingService } from '../messaging_with_rabbitqm/messaging.service';
 import { MessagingController } from '../messaging_with_rabbitqm/messaging.controller';
-import { exchange1, hardTestExchange, isTopic } from '../../common/constants';
+import {exchange1, hardTestExchange, isTopic} from '../../common/constants';
 import { appConfig } from '../../common/config/app.config';
 
 @Module({
@@ -23,6 +23,10 @@ import { appConfig } from '../../common/config/app.config';
         {
           name: hardTestExchange,
           type: isTopic,
+
+          options:{
+         mandatory:true,
+          }
         },
       ],
 

@@ -79,9 +79,6 @@ describe('MovieController', () => {
     const received = await movieController.search('4/4');
     expect(received).toThrowError();
   });
-  // it('/api/movie', async () => {
-  //   return request('localhost:8001/').get('api/movie').expect(200);
-  // });
 
   it('You must provide a values', async () => {
     const received = await movieController.search('');

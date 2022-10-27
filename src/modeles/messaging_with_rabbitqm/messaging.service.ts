@@ -21,7 +21,19 @@ const ExchangeMovie: ExchangeType = {
 @Injectable()
 export class MessagingService {
   constructor(private readonly amqpConnection: AmqpConnection) {}
-
+  async hardTest() {
+    const totalMessages = appConfig.getAmountOoMessages();
+    for (let n = 1; n <= totalMessages; n++) {
+      const datatime = new Date();
+      const timestamp = `${datatime.toLocaleTimeString()} : ${datatime.getMilliseconds()}`;
+      this.amqpConnection.publish(
+          hardTestExchange,
+          testKey,
+          Buffer.from(timestamp),
+      );
+      logger.info(`${n} :${timestamp}`);
+    }
+  }
   @RabbitRPC(ExchangeMovie)
   public async rpcHandler(msg: any, amqpMsg: ConsumeMessage) {
     logger.info(
@@ -34,17 +46,5 @@ export class MessagingService {
     return msg;
   }
 
-  async hardTest() {
-    const totalMessages = appConfig.getAmountOoMessages();
-    for (let n = 1; n <= totalMessages; n++) {
-      const datatime = new Date();
-      const timestamp = `${datatime.toLocaleTimeString()} : ${datatime.getMilliseconds()}`;
-      this.amqpConnection.publish(
-        hardTestExchange,
-        testKey,
-        Buffer.from(timestamp),
-      );
-      logger.info(`${n} :${timestamp}`);
-    }
-  }
+
 }
