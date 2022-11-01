@@ -33,6 +33,7 @@ import { appConfig } from '../../common/config/app.config';
       uri: appConfig.getUri(),
     }),
     MovieModule,
+
   ],
 
   providers: [

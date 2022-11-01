@@ -19,7 +19,7 @@ async function bootstrap() {
   await app.register(fastifyCookie, {
     secret: 'my-secret',
   });
-  app.setGlobalPrefix('api');
+  // app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(process.env.apiPort);
