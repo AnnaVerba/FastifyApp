@@ -1,0 +1,10 @@
+{"service": {
+  "port": 5672,
+  "kind": "Service",
+  "name": "consumer",
+  "tags": [
+    "hardTest",
+    "movie"
+  ]
+}
+}

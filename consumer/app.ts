@@ -3,7 +3,7 @@ import logger from '../winstonLogger/Logger';
 import {exchange1, hardTestExchange, publishUserInfoKey, replayKey, testKey} from '../src/common/constants';
 import {appConfig} from "./config/app.config";
 import Consul from 'consul';
-import{v4} from 'uuid'
+
 let consumedMessages = 0;
 const isDurable = true;
 const hardTestQueue = 'hardTest';
@@ -11,33 +11,18 @@ const queue = 'hello';
 const replayQueue = 'replay';
 
 const consul = new Consul();
-const id = v4().toString()
 
- async function register() {
-    await consul.session.create()
-     await consul.agent.join("127.0.0.1");
-     let serviceDefinition = {
-        port: 8002,
-        id : `${id}`,
-         kind:'Service',
-        name: "consumer",
-        tags: ['hardTest', 'movie'],
-    }
-     await consul.agent.service.register(serviceDefinition)
-    console.log('registered with Consul');
-
-await serviceInfo('consumer')
-}
 async function serviceInfo(service) {
-    logger.info('Producer service info:%s');
-    const nodes=await consul.catalog.service.nodes("produser");
+    logger.info(`service info:%s ${service}`);
+    const nodes=await consul.catalog.service.nodes(service);
     logger.info( `nodes : ${JSON.stringify(nodes)}` );
-    const health=await consul.health.service("produser")
+    const health=await consul.health.service(service)
     logger.info( `health : ${JSON.stringify(health)}` );
 
 }
 async function connect() {
-
+   await serviceInfo('produser');
+   await serviceInfo('consumer')
   const connection = await amqplib.connect( appConfig.getAmqplib());
   const channel = await connection.createChannel();
   await channel.assertExchange(exchange1, 'topic', {
@@ -74,11 +59,7 @@ async function connect() {
      logger.info(
          `Number of consumed: ${consumedMessages} consumed at: ${timestamp} message(published at): ${content}`,
      );
-
-      logger.info(`get kv:
-      ${
-          JSON.stringify(kv)
-      }`)
+      logger.info(`get kv: ${JSON.stringify(kv)}`)
       await consul.kv.set("hardTestFinished", content);
   }
   try {
@@ -87,14 +68,12 @@ async function connect() {
     await channel.consume(queue, publisher, {
       noAck: true,
     });
-
   } catch (error) {
     console.log(error);
   }
 
 }
-register();
-serviceInfo('produser');
+
 connect();
 
 

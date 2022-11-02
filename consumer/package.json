@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "build": "npx tsc",
-    "start": "node ./dist/consumer/app.js"
+    "start": "node ./dist/consumer/app.js",
+    "cteate service": "consul agent -dev -ui -node test -config-dir ../helper/consul.d"
   },
   "dependencies": {
     "amqplib": "^0.10.3",
