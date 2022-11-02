@@ -13,7 +13,6 @@ import {
 } from '../../common/constants';
 import {appConfig} from "../../common/config/app.config";
 
-
 const ExchangeMovie: ExchangeType = {
   routingKey: replayKey,
   exchange: exchange1,
@@ -22,7 +21,9 @@ const ExchangeMovie: ExchangeType = {
 @Injectable()
 export class MessagingService {
   constructor(private readonly amqpConnection: AmqpConnection,
-              private readonly consul: ConsulService<any>) {}
+              private readonly consul: ConsulService<any>,
+              ) {}
+
   async hardTest() {
     const totalMessages = appConfig.getAmountOoMessages();
 
@@ -35,7 +36,7 @@ export class MessagingService {
           Buffer.from(timestamp),
       );
       logger.info(`${n} :${timestamp}`);
-      await this.consul.set('hardTest', timestamp.toString())
+      await this.consul.set(n.toString(), timestamp)
     }
 
 

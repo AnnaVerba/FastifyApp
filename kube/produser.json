@@ -1,0 +1,5 @@
+{"service": {
+"port": 8002,
+"name": "produser",
+"tags": ["hardTest", "produser"]
+}}
